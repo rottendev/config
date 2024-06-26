@@ -1,0 +1,31 @@
+run:
+  timeout: 5m
+
+linters-settings:
+  gofmt:
+    simplify: true
+  govet:
+    enable-all: true
+    disable:
+      - fieldalignment
+
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - gofmt
+    - revive
+    - goimports
+    - exportloopref
+    - unconvert
+    - asciicheck
+    - bodyclose
+    - nilnil
+    - nilerr
+    - loggercheck
+    - asasalint

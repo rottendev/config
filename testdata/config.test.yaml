@@ -1,0 +1,8 @@
+app:
+    name: appYaml
+    port: 8081
+region: us-west-2
+files_dir: null
+modules:
+    - module1
+    - module2

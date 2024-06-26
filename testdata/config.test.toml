@@ -1,0 +1,7 @@
+Region = "us-west-3"
+FilesDir = "appToml"
+Modules = ["module4", "module5"]
+
+[sSs]
+  Name = "appToml"
+  Port = 8084

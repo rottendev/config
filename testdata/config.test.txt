@@ -1,0 +1,5 @@
+APP_NAME=appText
+APP_PORT=8085
+FILES_DIR=appText
+MODULES=["module6","module7"]
+REGION=us-west-4
