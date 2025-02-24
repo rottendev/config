@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"reflect"
 	"regexp"
-	"strconv"
 	"strings"
 )
 
@@ -13,6 +12,15 @@ func GeneratePlaceholderMap(v interface{}, keys map[string]interface{}, prefix s
 	val := reflect.ValueOf(v).Elem()
 	typ := val.Type()
 
+	if val.Kind() == reflect.String {
+		name := fmt.Sprintf("%s%s", prefix, strings.ToUpper(ToSnakeCase(typ.Name())))
+		envPlaceholder := fmt.Sprintf("${%s}", name)
+		keys[name] = val.Interface()
+		result[typ.Name()] = envPlaceholder
+
+		return result
+	}
+
 	for i := 0; i < val.NumField(); i++ {
 		field := val.Field(i)
 		fieldType := typ.Field(i)
@@ -20,17 +28,16 @@ func GeneratePlaceholderMap(v interface{}, keys map[string]interface{}, prefix s
 		if fieldName == "" {
 			fieldName = strings.ToLower(fieldType.Name)
 		}
-
-		if field.Kind() == reflect.Struct {
+		switch field.Kind() {
+		case reflect.Struct:
 			nestedMap := GeneratePlaceholderMap(field.Addr().Interface(), keys, prefix+strings.ToUpper(fieldType.Name)+"_")
 			result[fieldName] = nestedMap
-		}
-		if field.Kind() == reflect.Slice {
-			for j := 0; j < field.Len(); j++ {
-				nestedMap := GeneratePlaceholderMap(field.Addr().Interface(), keys, prefix+strings.ToUpper(fieldType.Name)+"_"+strconv.Itoa(j)+"_")
-				result[fieldName] = nestedMap
-			}
-		} else {
+		// case reflect.Slice:
+		// 	for j := 0; j < field.Len(); j++ {
+		// 		nestedMap := GeneratePlaceholderMap(field.Index(j).Addr().Interface(), keys, prefix+strings.ToUpper(fieldType.Name)+"_"+strconv.Itoa(j)+"_")
+		// 		result[fieldName] = nestedMap
+		// 	}
+		default:
 			name := fmt.Sprintf("%s%s", prefix, strings.ToUpper(ToSnakeCase(fieldType.Name)))
 			envPlaceholder := fmt.Sprintf("${%s}", name)
 			keys[name] = field.Interface()

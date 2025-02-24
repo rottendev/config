@@ -21,7 +21,7 @@ linters:
     - gofmt
     - revive
     - goimports
-    - exportloopref
+    - copyloopvar
     - unconvert
     - asciicheck
     - bodyclose

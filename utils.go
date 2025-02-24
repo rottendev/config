@@ -3,11 +3,12 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/rottendev/config/pkg"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
+
+	"github.com/rottendev/config/pkg"
 
 	"github.com/BurntSushi/toml"
 	"github.com/creasty/defaults"
